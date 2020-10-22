@@ -26,7 +26,7 @@
 //  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 //  OTHER DEALINGS IN THE SOFTWARE.
 
-#import <QueryKit/QKQueryConstruct.h>
+#import "QKQueryConstruct.h"
 
 @interface QKQueryGenericParameter : QKQueryConstruct 
 {

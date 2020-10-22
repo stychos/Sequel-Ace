@@ -168,5 +168,6 @@ typedef struct {
 - (BOOL)isSnippetMode;
 
 - (void)boundsDidChangeNotification:(NSNotification *)notification;
+- (void)dragAlertSheetDidEnd:(NSAlert *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 @end

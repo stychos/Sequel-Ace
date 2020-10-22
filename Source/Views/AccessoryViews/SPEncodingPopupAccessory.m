@@ -38,7 +38,7 @@
 	SPEncodingPopupAccessory *owner = [[[SPEncodingPopupAccessory alloc] init] autorelease];
 	
 	// Rather than caching, load the accessory view everytime, as it might appear in multiple panels simultaneously.
-	if (![NSBundle.mainBundle loadNibNamed:@"EncodingPopupView" owner:owner topLevelObjects:nil])  {
+	if (![NSBundle loadNibNamed:@"EncodingPopupView" owner:owner])  {
 		NSLog(@"Failed to load EncodingPopupView.nib");
 		return nil;
 	}

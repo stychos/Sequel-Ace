@@ -1488,24 +1488,24 @@
 }
 
 // NSDraggingSource
-
-
-- (NSDragOperation)draggingSession:(NSDraggingSession *)session sourceOperationMaskForDraggingContext:(NSDraggingContext)context{
-		
-	return (context == NSDraggingContextWithinApplication ? NSDragOperationMove : NSDragOperationNone);
+- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal
+{
+    return (isLocal ? NSDragOperationMove : NSDragOperationNone);
 }
 
-- (BOOL)ignoreModifierKeysForDraggingSession:(NSDraggingSession *)session{
-	return YES;
+- (BOOL)ignoreModifierKeysWhileDragging
+{
+    return YES;
 }
 
-- (void)draggingSession:(NSDraggingSession *)session willBeginAtPoint:(NSPoint)screenPoint{
+- (void)draggedImage:(NSImage *)anImage beganAt:(NSPoint)screenPoint
+{
 	[[PSMTabDragAssistant sharedDragAssistant] draggingBeganAt:screenPoint];
 }
 
-- (void)draggingSession:(NSDraggingSession *)session movedToPoint:(NSPoint)screenPoint{
+- (void)draggedImage:(NSImage *)image movedTo:(NSPoint)screenPoint
+{
 	[[PSMTabDragAssistant sharedDragAssistant] draggingMovedTo:screenPoint];
-
 }
 
 // NSDraggingDestination
@@ -1614,11 +1614,9 @@
     return YES;
 }
 
-- (void)draggingSession:(NSDraggingSession *)session
-		   endedAtPoint:(NSPoint)screenPoint
-			  operation:(NSDragOperation)operation{
-	
-	[[PSMTabDragAssistant sharedDragAssistant] draggedImageEndedAt:screenPoint operation:operation];
+- (void)draggedImage:(NSImage *)anImage endedAt:(NSPoint)aPoint operation:(NSDragOperation)operation
+{
+	[[PSMTabDragAssistant sharedDragAssistant] draggedImageEndedAt:aPoint operation:operation];
 }
 
 - (void)concludeDragOperation:(id <NSDraggingInfo>)sender
@@ -2191,11 +2189,10 @@
 #pragma mark -
 #pragma mark Accessibility
 
--(BOOL)isAccessibilityEnabled {
-	return YES;
+-(BOOL)accessibilityIsIgnored {
+	return NO;
 }
 
-// TODO: jcs - this is hardly ever called with any meaningful values, won't fix for the moment - 2020-10-22
 - (id)accessibilityAttributeValue:(NSString *)attribute {
 	id attributeValue = nil;
 	if ([attribute isEqualToString: NSAccessibilityRoleAttribute]) {

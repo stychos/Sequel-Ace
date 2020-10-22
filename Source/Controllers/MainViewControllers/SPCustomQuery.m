@@ -2081,7 +2081,6 @@ typedef void (^QueryProgressHandler)(QueryProgress *);
 
 		NSString *newObject = nil;
 		if ( [anObject isKindOfClass:[NSCalendarDate class]] ) {
-			SPLog(@"object was NSCalendarDate");
 			newObject = [mySQLConnection escapeAndQuoteString:[anObject description]];
 		} else if ( [anObject isKindOfClass:[NSNumber class]] ) {
 			newObject = [anObject stringValue];
@@ -3411,11 +3410,7 @@ typedef void (^QueryProgressHandler)(QueryProgress *);
 
 	NSArray *editStatus = [self fieldEditStatusForRow:row andColumn:column];
 	NSInteger numberOfPossibleUpdateRows = [NSArrayObjectAtIndex(editStatus, 0) integerValue];
-	
-	NSPoint customQueryViewPoint = [customQueryView convertPoint:[customQueryView frameOfCellAtColumn:column row:row].origin toView:nil];
-	NSRect screenRect = [[tableDocumentInstance parentWindow] convertRectToScreen: NSMakeRect(customQueryViewPoint.x, customQueryViewPoint.y, 0,0)];
-	NSPoint pos = NSMakePoint(screenRect.origin.x, screenRect.origin.y);
-		
+	NSPoint pos = [[tableDocumentInstance parentWindow] convertBaseToScreen:[customQueryView convertPoint:[customQueryView frameOfCellAtColumn:column row:row].origin toView:nil]];
 	pos.y -= 20;
 	switch(numberOfPossibleUpdateRows) {
 		case -1:
@@ -3714,8 +3709,7 @@ typedef void (^QueryProgressHandler)(QueryProgress *);
 
 - (void)dealloc
 {
-	[updateHandler release];
-	updateHandler = nil;
+	SPClear(updateHandler);
 	[super dealloc];
 }
 
